@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:life_expectancy/constants.dart';
 import 'package:life_expectancy/icon_gender.dart';
 import 'package:life_expectancy/my_container.dart';
 
@@ -14,6 +15,8 @@ class _InputPageState extends State<InputPage> {
   String? selectedGender;
   double smokedCigarette = 15.0;
   double sportDay = 3.0;
+  int height = 170;
+  int weight = 80;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +28,19 @@ class _InputPageState extends State<InputPage> {
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Expanded(
+          Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: MyContainer(),
+                  child: MyContainer(
+                    child: buildRowOutlineButon('Height'),
+                  ),
                 ),
                 Expanded(
-                  child: MyContainer(),
+                  child: MyContainer(
+                    child: buildRowOutlineButon('Weight'),
+                  ),
                 ),
               ],
             ),
@@ -44,21 +50,17 @@ class _InputPageState extends State<InputPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'How many days a week do you work out?',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style: kTextStyle,
                   ),
+                  const SizedBox(height: 15),
                   Text(
                     sportDay.round().toString(),
-                    style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
+                    style: TextNumStyle,
                   ),
                   Slider(
+                    inactiveColor: Colors.grey,
                     min: 0,
                     max: 7,
                     value: sportDay,
@@ -79,21 +81,17 @@ class _InputPageState extends State<InputPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'How many cigarettes do you smoke a day?',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style: kTextStyle,
                   ),
+                  const SizedBox(height: 15),
                   Text(
                     smokedCigarette.round().toString(),
-                    style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
+                    style: TextNumStyle,
                   ),
                   Slider(
+                    inactiveColor: Colors.grey,
                     min: 0,
                     max: 30,
                     value: smokedCigarette,
@@ -120,9 +118,8 @@ class _InputPageState extends State<InputPage> {
                         selectedGender = 'Female';
                       });
                     },
-                    color: selectedGender == 'Female'
-                        ? Colors.pinkAccent
-                        : Colors.white,
+                    color:
+                        selectedGender == 'Female' ? Colors.grey : Colors.white,
                     child: const IconGender(
                         gender: 'Female', icon: FontAwesomeIcons.venus),
                   ),
@@ -134,9 +131,8 @@ class _InputPageState extends State<InputPage> {
                         selectedGender = 'Male';
                       });
                     },
-                    color: selectedGender == 'Male'
-                        ? Colors.blueAccent
-                        : Colors.white,
+                    color:
+                        selectedGender == 'Male' ? Colors.grey : Colors.white,
                     child: const IconGender(
                         gender: 'Male', icon: FontAwesomeIcons.mars),
                   ),
@@ -146,6 +142,78 @@ class _InputPageState extends State<InputPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Row buildRowOutlineButon(String label) {
+    return Row(
+      children: [
+        const SizedBox(width: 15),
+        RotatedBox(
+          quarterTurns: 3,
+          child: Text(
+            label,
+            style: kTextStyle,
+          ),
+        ),
+        const SizedBox(width: 15),
+        RotatedBox(
+          quarterTurns: 3,
+          child: Text(
+            label == 'Height' ? height.toString() : weight.toString(),
+            style: TextNumStyle,
+          ),
+        ),
+        const SizedBox(width: 15),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                setState(
+                  () {
+                    label == 'Height' ? height++ : weight++;
+                  },
+                );
+              },
+              child: Icon(
+                FontAwesomeIcons.plus,
+                size: 20,
+                color: Colors.black87,
+              ),
+              style: ButtonStyle(
+                side: MaterialStateProperty.all(
+                  const BorderSide(
+                    color: Colors.black87,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                overlayColor: const MaterialStatePropertyAll(
+                  Colors.black38,
+                ),
+              ),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                setState(
+                  () {
+                    label == 'Height' ? height-- : weight--;
+                  },
+                );
+              },
+              child:
+                  Icon(FontAwesomeIcons.minus, size: 20, color: Colors.black87),
+              // Icon rengini belirle
+              style: ButtonStyle(
+                side: MaterialStateProperty.all(
+                  BorderSide(color: Colors.black87),
+                ),
+                overlayColor: const MaterialStatePropertyAll(Colors.black38),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

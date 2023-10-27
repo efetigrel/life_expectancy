@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_expectancy/constants.dart';
 
 class IconGender extends StatelessWidget {
   final String? gender;
@@ -17,11 +18,7 @@ class IconGender extends StatelessWidget {
           color: Colors.black87,
         ),
         const SizedBox(height: 10),
-        Text(
-          gender ?? '',
-          style: const TextStyle(
-              color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        Text(gender ?? '', style: kTextStyle),
       ],
     );
   }
