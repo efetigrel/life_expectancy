@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:life_expectancy/constants.dart';
 import 'package:life_expectancy/icon_gender.dart';
 import 'package:life_expectancy/my_container.dart';
+import 'package:life_expectancy/result_page.dart';
+import 'package:life_expectancy/user_data.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -16,7 +18,7 @@ class _InputPageState extends State<InputPage> {
   double smokedCigarette = 15.0;
   double sportDay = 3.0;
   int height = 170;
-  int weight = 80;
+  int weight = 60;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +69,11 @@ class _InputPageState extends State<InputPage> {
                     divisions: 7,
                     activeColor: Colors.black87,
                     onChanged: (double value1) {
-                      setState(() {
-                        sportDay = value1;
-                      });
+                      setState(
+                        () {
+                          sportDay = value1;
+                        },
+                      );
                     },
                   ),
                 ],
@@ -114,9 +118,11 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: MyContainer(
                     onPress: () {
-                      setState(() {
-                        selectedGender = 'Female';
-                      });
+                      setState(
+                        () {
+                          selectedGender = 'Female';
+                        },
+                      );
                     },
                     color:
                         selectedGender == 'Female' ? Colors.grey : Colors.white,
@@ -127,9 +133,11 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: MyContainer(
                     onPress: () {
-                      setState(() {
-                        selectedGender = 'Male';
-                      });
+                      setState(
+                        () {
+                          selectedGender = 'Male';
+                        },
+                      );
                     },
                     color:
                         selectedGender == 'Male' ? Colors.grey : Colors.white,
@@ -138,6 +146,34 @@ class _InputPageState extends State<InputPage> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white, // Buton metin rengi
+                textStyle: kTextStyle,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                      UserData(
+                          height: height,
+                          weight: weight,
+                          selectedGender: selectedGender,
+                          smokedCigarette: smokedCigarette,
+                          sportDay: sportDay),
+                    ),
+                  ),
+                );
+              },
+              child: Text('Hesapla'),
             ),
           ),
         ],
@@ -203,7 +239,6 @@ class _InputPageState extends State<InputPage> {
               },
               child:
                   Icon(FontAwesomeIcons.minus, size: 20, color: Colors.black87),
-              // Icon rengini belirle
               style: ButtonStyle(
                 side: MaterialStateProperty.all(
                   BorderSide(color: Colors.black87),
